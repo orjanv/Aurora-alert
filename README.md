@@ -29,5 +29,5 @@ sudo ln -s /PATH_TO_Planetary-K-Index-alert/forecast.py /usr/bin/kp-forecast
 Add to your crontab to run every hour with the following entry:
 
 ```bash
-0 * * * *	if OUT="$(kp-forecast)"; then echo $OUT | mailx -s "Planetary K-Index Alert" orjanv@gmail.com; fi
+0 * * * *	if OUT="$(kp-forecast)"; then echo $OUT | mailx -s "Planetary K-Index Alert" user@host.com; fi
 ```
