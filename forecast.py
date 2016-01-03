@@ -1,11 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import sys, urllib2
+import requests
 from datetime import datetime
+
+USER_AGENT = 'Python3/Python CLI Planetary K-Index Alert App/0.1'
 
 # Download the datafile from noaa.gov
 url = "http://services.swpc.noaa.gov/text/daily-geomagnetic-indices.txt"
-response = urllib2.urlopen(url)
+headers = {'User-Agent': USER_AGENT}
+response = requests.get(url, headers=headers)
 everything = response.readlines()
 
 # We only need the last line
@@ -30,6 +33,6 @@ for i in range(0, len(ki)):
 hour = 3
 for i in fc:
     if i >= "4":
-        print ("The Planetary K-Index value:"), (str(i)), 
+        print ("The Planetary K-Index value:"), (str(i)),
         ("was estimated today at"), (str(hour)) + (":30 UTC time")
     hour += 3
