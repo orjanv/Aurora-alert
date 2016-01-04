@@ -5,6 +5,8 @@ The principal users affected by geomagnetic storms are the electrical power grid
 
 It can therefore be useful to be alerted if the K-index reach 4, 5, 6, 7, 8, or 9.
 
+![](http://services.swpc.noaa.gov/images/planetary-k-index.gif "Planetary K-Index at NOAA")
+
 Read more at [NOAA](http://www.swpc.noaa.gov/products/planetary-k-index)s pages.
 
 ## Installation
