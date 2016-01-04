@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+# https://github.com/orjanv/Planetary-K-Index-alert
 
 import requests
 from datetime import datetime
