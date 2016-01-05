@@ -31,5 +31,8 @@ sudo ln -s /PATH/TO/Planetary-K-Index-alert/forecast.py /usr/bin/kp-forecast
 Add to your crontab to run every hour with the following entry:
 
 ```bash
+crontab -e
 0 * * * *	/PATH/TO/check-kp.sh
 ```
+
+Remember to change the email address in the bash script `check-kp.sh`.
