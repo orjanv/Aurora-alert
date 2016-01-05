@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # https://github.com/orjanv/Planetary-K-Index-alert
 
-import requests
+import urllib2
 from datetime import datetime
 
 USER_AGENT = 'Python3/Python CLI Planetary K-Index Alert App/0.1'
@@ -10,12 +10,12 @@ USER_AGENT = 'Python3/Python CLI Planetary K-Index Alert App/0.1'
 # Download the datafile from noaa.gov
 
 url = 'http://services.swpc.noaa.gov/text/daily-geomagnetic-indices.txt'
-headers = {'User-Agent': USER_AGENT}
-response = requests.get(url, headers=headers)
+#headers = {'User-Agent': USER_AGENT}
+#req = urllib2.Request(url,headers)
+response = urllib2.urlopen(url)
 everything = response.readlines()
 
 # We only need the last line
-
 last_line = everything[-1]
 
 # Extract the date we are interested in
