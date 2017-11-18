@@ -4,11 +4,11 @@
 # https://github.com/orjanv/Planetary-K-Index-alert
 
 import urllib2
-from datetime import datetime
+#from datetime import datetime
 
-USER_AGENT = 'Python3/Python CLI Planetary K-Index Alert App/0.1'
+USER_AGENT = 'Python-urllib/2.1'
 
-kpIndex():
+def kpIndex():
     url = 'http://services.swpc.noaa.gov/text/daily-geomagnetic-indices.txt'
     # Download the datafile from noaa.gov
     response = urllib2.urlopen(url)
@@ -18,13 +18,12 @@ kpIndex():
     last_line = everything[-1]
 
     # Extract the date we are interested in
-    today = last_line[0:16]
-    forecastdate = datetime.strptime(today, '%Y %m %d  %H%M')
+    #today = last_line[0:10]
+    #forecastdate = datetime.strptime(today, '%Y %m %d')
 
     # Extract the last numbers, which is the planetary K-indices
     # in three ours intervals and add to a list
     ki = last_line[-17:]
-    print ki #debug
     fc = []
     for i in range(0, len(ki)):
         k = ki[i]
@@ -33,7 +32,7 @@ kpIndex():
         elif k != ' ':
             fc.append(k)
 
-    return fc[-1], forecastdate
+    return fc[-1]
     # Determine if the level is four or more and output an alert message
     #for i in fc:
         #print i
@@ -44,7 +43,7 @@ kpIndex():
         #else:
             #pass
 
-bzValue():
+def bzValue():
     url = 'ftp://ftp.swpc.noaa.gov/pub/lists/ace/ace_mag_1m.txt'
     # Download the datafile from noaa.gov
     response = urllib2.urlopen(url)
@@ -60,19 +59,20 @@ bzValue():
         # Check the status of the data (bad or corrupt)
         if data_status == '0':
             # Extract the data we are interested in and stop
-            today = last_line[0:16]
-            forecastdate = datetime.strptime(today, '%Y %m %d  %H%M')
+            #today = last_line[0:16]
+            #forecastdate = datetime.strptime(today, '%Y %m %d  %H%M')
             bz = last_line[57:61]
             break
         else:
             line_number = line_number - 1
 
-    return bz, forecastdate
+    return bz
     
 
 if __name__ == '__main__':
     kpi = kpIndex()
     bz = bzValue()
 
-    print kpi
-    print bz
+    # If bz is negative and kpi >= 4, chance of aurora
+    print "KP-Index: ", kpi
+    print "Bz value: ", bz
