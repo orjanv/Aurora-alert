@@ -1,6 +1,6 @@
 #!/bin/bash
 # Script to be used in crontab
-# part of https://github.com/orjanv/Planetary-K-Index-alert
+# part of https://gitlab.com/orjanv/Aurora-alert
 # 
 OUT=$(/usr/bin/aurora-forecast -f)
 if (( $OUT )); then

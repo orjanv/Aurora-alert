@@ -44,7 +44,7 @@ If you don't have `git` installed, install it as well as the `mailx` command fro
 Clone into the repository:
 
 ```bash
-git clone https://github.com/orjanv/Planetary-K-Index-alert.git
+git clone https://gitlab.com/orjanv/Aurora-alert.git
 ```
 
 Make sure the program is executable:
@@ -52,19 +52,6 @@ Make sure the program is executable:
 sudo chmod a+x forecast.py
 ``` 
 
-Make a symbolic link to the program
-```bash
-sudo ln -s /PATH/TO/Planetary-K-Index-alert/forecast.py /usr/bin/aurora-forecast
-```
-
-Add to your crontab to run every whole hour with the following entry:
-
-```bash
-crontab -e
-0 * * * *	/PATH/TO/check-kp.sh
-```
-
-Remember to change the email address in the bash script `check-kp.sh`.
 
 ## Running the script
 
@@ -84,3 +71,27 @@ optional arguments:
   -a, --all        Show all values (default)
   -f, --forecast   Evaluate the chance of aurora
 ```
+
+## Setup automatic schedule runs with crontab
+
+Make a symbolic link to the program
+```bash
+sudo ln -s /PATH/TO/Aurora-alert/forecast.py /usr/bin/aurora-forecast
+```
+
+Add to your crontab with `crontab -e` to run every whole hour with the following entry:
+
+```bash
+0 * * * *	/PATH/TO/check-kp.sh
+```
+
+The content of check-kp.sh script run the program with `-f` argument and sends an email (require mailx)
+
+```bash
+OUT=$(/usr/bin/aurora-forecast -f)
+if (( $OUT )); then
+    echo $OUT | mailx -s "Aurora warning" EMAILADDRESS;
+fi
+``` 
+
+Remember to change the email address in the bash script `check-kp.sh`.
