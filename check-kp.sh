@@ -2,7 +2,7 @@
 # Script to be used in crontab
 # part of https://github.com/orjanv/Planetary-K-Index-alert
 # 
-OUT=$(/usr/bin/kp-forecast)
+OUT=$(/usr/bin/aurora-forecast)
 if (( $OUT )); then
-    echo $OUT | mailx -s "Planetary K-Index Alert" user@host.com;
+    echo $OUT | mailx -s "Aurora warning" EMAILADDRESS;
 fi
