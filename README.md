@@ -68,7 +68,7 @@ Remember to change the email address in the bash script `check-kp.sh`.
 
 ## Running the script
 
-python forecast.py will give you an output if bz is negative and kpi >= 4, 
+Using the `-f` argument will give you an output if bz is negative and kpi >= 4, 
 which means that there is a chance of aurora.
 
 ### Command line arguments
