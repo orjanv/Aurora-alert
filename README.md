@@ -8,7 +8,7 @@ The principal users affected by geomagnetic storms are the electrical power grid
 
 It can therefore be useful to be alerted if the K-index reach 4, 5, 6, 7, 8, or 9.
 
-Data source: http://services.swpc.noaa.gov/text/daily-geomagnetic-indices.txt
+**Data source**: http://services.swpc.noaa.gov/text/daily-geomagnetic-indices.txt
 
 Read more at
 
@@ -19,7 +19,7 @@ Read more at
 Higher solar wind speeds and strong south pointing (negative) interplanetary 
 magnetic field are associated with geomagnetic disturbances on earth.
 
-Data source: ftp://ftp.swpc.noaa.gov/pub/lists/ace/ace_swepam_1m.txt
+**Data source**: ftp://ftp.swpc.noaa.gov/pub/lists/ace/ace_swepam_1m.txt
 
 Read more at 
 
@@ -28,9 +28,10 @@ Read more at
 
 ### Negative or positive Bz
 
-Data source: ftp://ftp.swpc.noaa.gov/pub/lists/ace/ace_mag_1m.txt
+Higher solar wind speeds and strong south pointing (negative) interplanetary 
+magnetic field are associated with geomagnetic disturbances on earth.
 
-Read more at [NOAA](http://www.swpc.noaa.gov/products/planetary-k-index)s pages.
+**Data source**: ftp://ftp.swpc.noaa.gov/pub/lists/ace/ace_mag_1m.txt
 
 ### Alternative sources for Solar wind and Bz
 
@@ -72,7 +73,7 @@ optional arguments:
   -f, --forecast   Evaluate the chance of aurora
 ```
 
-## Setup automatic schedule runs with crontab
+### Setup automatic schedule runs with crontab
 
 Make a symbolic link to the program
 ```bash

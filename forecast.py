@@ -5,6 +5,7 @@
 
 import urllib2
 import argparse
+import xml.etree.ElementTree as ET
 #from datetime import datetime
 
 USER_AGENT = 'Python-urllib/2.1'
@@ -87,6 +88,20 @@ def windSpeed():
             line_number = line_number - 1
     return speed
     
+    
+def getWeather():
+    ''' Get the weather data from weather api
+    '''
+    # get weather data from xml into memory
+    url = "https://beta.api.met.no/weatherapi/textforecast/1.6/?forecast=landday0&language=nb"
+    response = urllib2.urlopen(url)
+    weatherdata = response.readlines()
+    root = ET.fromstringlist(weatherdata)
+    data = root.findall(".//*[@name='Nordland']/in")
+    for i in data:
+        return i.text
+
+
 def main():
     ''' Main function
     '''
@@ -97,45 +112,63 @@ def main():
         action="store_true")
     parser.add_argument("-b", "--bz", help="Magnetic Bz Value",
         action="store_true")
+    parser.add_argument("-y", "--yr", help="YR data for Nordland",
+        action="store_true")
     parser.add_argument("-a", "--all", help="Show all values (default)",
         action="store_true")
     parser.add_argument("-f", "--forecast", help="Evaluate the chance of aurora",
         action="store_true")
     args = parser.parse_args()
 
-    # Get all the values
-    print "Downloading data...\n"
-    kpi = kpIndex()
-    bz = bzValue()
-    wind = windSpeed()    
-
     if args.kpindex:
+        kpi = kpIndex()
         print "KP-Index (NOAA):", kpi
 
     if args.windspeed:
+        wind = windSpeed()
         print "Wind speed (ACE):", wind
         
     if args.bz:
+        bz = bzValue()
         print "Bz value (ACE):", bz    
 
+    if args.yr:
+        yr = getWeather()
+        print "Weather data (YR) for Nordland:", yr  
+
     if args.all:   
-        print "ACE-values are 1 hour away from earth, KP-index three hour forecast\n"     
+        kpi = kpIndex()
+        bz = bzValue()
+        wind = windSpeed()
+        yr = getWeather()
         print "KP-Index (NOAA):", kpi
         print "Bz value (ACE):", bz
         print "Wind speed (ACE):", wind
+        print "Weather data (YR) for Nordland:", yr
 
     if args.forecast:
-        # If bz is negative and kpi >= 4, chance of aurora
-        if kpi >= 4 and bz < 0:
+        kpi = kpIndex()
+        bz = bzValue()
+        wind = windSpeed()
+        yr = getWeather()
+        # If bz is negative and kpi >= 4, or big bz negative,
+        # there is a chance of aurora
+        if kpi >= 4 and float(bz) < 0.0:
             print "KP-Index (NOAA):", kpi
             print "Bz value (ACE):", bz
             print "Wind speed (ACE):", wind
+            print "Weather data (YR) for Nordland:", yr
+        elif float(bz) < -2.0:
+            print "KP-Index (NOAA):", kpi
+            print "Bz value (ACE):", bz
+            print "Wind speed (ACE):", wind
+            print "Weather data (YR) for Nordland:", yr
 
-    else:
-        print "ACE-values are 1 hour away from earth, KP-index three hour forecast\n"
-        print "KP-Index (NOAA):", kpi
-        print "Bz value (ACE):", bz
-        print "Wind speed (ACE):", wind
+    #else:
+        #print "KP-Index (NOAA):", kpi
+        #print "Bz value (ACE):", bz
+        #print "Wind speed (ACE):", wind
+        #print "Weather data (YR) for Nordland:", yr
 
 if __name__ == '__main__':
     main()
