@@ -57,19 +57,25 @@ sudo chmod a+x forecast.py
 ## Running the script
 
 Using the `-f` argument will give you an output if bz is negative and kpi >= 4, 
-which means that there is a chance of aurora.
+or if there is a good negative Bz value, which means that there is a chance of aurora.
 
 ### Command line arguments
 
 ```bash
-usage: forecast.py [-h] [-k] [-w] [-b] [-a] [-f]
+usage: forecast.py [-h] [-k] [-w] [-b] [-y] [-a] [-r] [-f] [region]
+
+positional arguments:
+  region           region in Norway, use -r to show all. Defaults to
+                   'Nordland'
 
 optional arguments:
   -h, --help       show this help message and exit
   -k, --kpindex    Planetary K-Index
   -w, --windspeed  Solar Wind Speed
   -b, --bz         Magnetic Bz Value
-  -a, --all        Show all values (default)
+  -y, --yr         YR data for Nordland
+  -a, --all        Show all data
+  -r, --regions    Show all available regions, used with -y
   -f, --forecast   Evaluate the chance of aurora
 ```
 
