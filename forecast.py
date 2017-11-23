@@ -6,6 +6,7 @@
 import urllib2
 import argparse
 import xml.etree.ElementTree as ET
+import sys
 #from datetime import datetime
 
 USER_AGENT = 'Python-urllib/2.1'
@@ -89,23 +90,32 @@ def windSpeed():
     return speed
     
     
-def getWeather():
+def getWeather(region):
     ''' Get the weather data from weather api
     '''
-    # get weather data from xml into memory
-    url = "https://beta.api.met.no/weatherapi/textforecast/1.6/?forecast=landday0&language=nb"
-    response = urllib2.urlopen(url)
-    weatherdata = response.readlines()
-    root = ET.fromstringlist(weatherdata)
-    data = root.findall(".//*[@name='Nordland']/in")
-    for i in data:
-        return i.text
+    try:
+        # get weather data from xml into memory
+        url = "https://beta.api.met.no/weatherapi/textforecast/1.6/?forecast=landday0&language=nb"
+        response = urllib2.urlopen(url)
+        weatherdata = response.readlines()
+        root = ET.fromstringlist(weatherdata)
+        data = root.findall(".//*[@name='%s']/in" % (region))
+        for i in data:
+            return i.text
+    except IndexError:
+        print "Please enter a region"
 
 
 def main():
     ''' Main function
     '''
+    
+    regionnames = ["Østlandet, Telemark, Agder, Fjellet i Sør-Norge, \
+Rogaland, Hordaland, Sogn og Fjordane, Møre og Romsdal, \
+Trøndelag, Nordland, Troms, Finnmark, Spitsbergen"]
+
     parser = argparse.ArgumentParser()
+    
     parser.add_argument("-k", "--kpindex", help="Planetary K-Index",
         action="store_true")
     parser.add_argument("-w", "--windspeed", help="Solar Wind Speed",
@@ -114,11 +124,21 @@ def main():
         action="store_true")
     parser.add_argument("-y", "--yr", help="YR data for Nordland",
         action="store_true")
-    parser.add_argument("-a", "--all", help="Show all values (default)",
+    parser.add_argument("region", nargs="?", default="Nordland", \
+        help="region in Norway, use -r to show all. Defaults to 'Nordland'")
+    parser.add_argument("-a", "--all", help="Show all data",
+        action="store_true")
+    parser.add_argument("-r", "--regions", help="Show all available regions, used with -y",
         action="store_true")
     parser.add_argument("-f", "--forecast", help="Evaluate the chance of aurora",
         action="store_true")
+    #parser.add_argument("-W", nargs='?', default="Nordland", help="which region")
+    
     args = parser.parse_args()
+
+    if args.regions:
+        for r in regionnames:
+            print r
 
     if args.kpindex:
         kpi = kpIndex()
@@ -133,14 +153,15 @@ def main():
         print "Bz value (ACE):", bz    
 
     if args.yr:
-        yr = getWeather()
-        print "Weather data (YR) for Nordland:", yr  
+        #region = raw_input("Enter a region: ")
+        yr = getWeather(args.region)
+        print "Weather data (YR) for %s: %s" % (args.region, yr) 
 
     if args.all:   
         kpi = kpIndex()
         bz = bzValue()
         wind = windSpeed()
-        yr = getWeather()
+        yr = getWeather(args.region)
         print "KP-Index (NOAA):", kpi
         print "Bz value (ACE):", bz
         print "Wind speed (ACE):", wind
@@ -150,7 +171,7 @@ def main():
         kpi = kpIndex()
         bz = bzValue()
         wind = windSpeed()
-        yr = getWeather()
+        yr = getWeather(args.region)
         # If bz is negative and kpi >= 4, or big bz negative,
         # there is a chance of aurora
         if kpi >= 4 and float(bz) < 0.0:
