@@ -7,7 +7,6 @@ import urllib2
 import argparse
 import xml.etree.ElementTree as ET
 import sys
-#from datetime import datetime
 
 USER_AGENT = 'Python-urllib/2.1'
 
@@ -81,8 +80,6 @@ def windSpeed():
         # Check the status of the data (bad or corrupt)
         if data_status == '0':
             # Extract the data we are interested in and stop
-            #today = last_line[0:16]
-            #forecastdate = datetime.strptime(today, '%Y %m %d  %H%M')
             speed = last_line[54:59]
             break
         else:
@@ -109,7 +106,6 @@ def getWeather(region):
 def main():
     ''' Main function
     '''
-    
     regionnames = ["Østlandet, Telemark, Agder, Fjellet i Sør-Norge, \
 Rogaland, Hordaland, Sogn og Fjordane, Møre og Romsdal, \
 Trøndelag, Nordland, Troms, Finnmark, Spitsbergen"]
@@ -126,13 +122,12 @@ Trøndelag, Nordland, Troms, Finnmark, Spitsbergen"]
         action="store_true")
     parser.add_argument("region", nargs="?", default="Nordland", \
         help="region in Norway, use -r to show all. Defaults to 'Nordland'")
-    parser.add_argument("-a", "--all", help="Show all data",
-        action="store_true")
     parser.add_argument("-r", "--regions", help="Show all available regions, used with -y",
+        action="store_true")
+    parser.add_argument("-a", "--all", help="Show all data",
         action="store_true")
     parser.add_argument("-f", "--forecast", help="Evaluate the chance of aurora",
         action="store_true")
-    #parser.add_argument("-W", nargs='?', default="Nordland", help="which region")
     
     args = parser.parse_args()
 
@@ -185,11 +180,16 @@ Trøndelag, Nordland, Troms, Finnmark, Spitsbergen"]
             print "Wind speed (ACE):", wind
             print "Weather data (YR) for Nordland:", yr
 
-    #else:
-        #print "KP-Index (NOAA):", kpi
-        #print "Bz value (ACE):", bz
-        #print "Wind speed (ACE):", wind
-        #print "Weather data (YR) for Nordland:", yr
+    if len(sys.argv) == 1:
+        about = ("Use this script to grab essential data from the "
+            "ACE-satellite and magnetometers around the world. With "
+            "this data, you can tell if there is a good change of "
+            "spotting Aurora on the sky 30-45 minutes later.\n\n"
+            "Using the `-f` argument will evaluate the data for "
+            "you and give you an output ONLY if there is a chance of "
+            "spotting auroras. Run the script with -h or --help to "
+            "see all available functions.")
+        print about
 
 if __name__ == '__main__':
     main()
