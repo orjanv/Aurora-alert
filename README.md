@@ -1,5 +1,15 @@
 ## About the forecast script
 
+The ACE satellite is positioned between the Earth and the Sun and are able to give us a heads up using its sensors onboard and a radiolink to ground stations on our planet.
+
+The constant Solar wind coming from the Sun will need at daytime about an hour traveltime before it possibly collide and sneak into our atmosphere, which might end up as visible auroras. At nighttime it can take up to two hours traveltime.
+
+This script looks at the constant data coming from the ACE-satellite, recorded in textfiles hosted by the NOAA organization. What we are looking for when evaluating a chance of northern lights is if the magentic field of the solar wind is an opposite of the Earths magnetic field, kind of like two magnets attracting of repel each other when holding them in hour hands. If they attract, it means that the solar winds Bz value is negative and this is what we are looking for.
+
+In addition to that, the solar wind speed will help the chance of more visible auroras, but not as crucial as the magnetic Bz vector. 
+
+Once the magnetic field of hour planet is disturbed by the constant wind blowing from the Sun, magnetometers around the globe will measure the impact and together give an indicator of the disturbances. 
+
 ### Planetary K-Index
 
 The K-index, and by extension the *Planetary K-index*, are used to characterize the magnitude of geomagnetic storms. Kp is an excellent indicator of disturbances in the Earth's magnetic field and is used by SWPC to decide whether geomagnetic alerts and warnings need to be issued for users who are affected by these disturbances.
