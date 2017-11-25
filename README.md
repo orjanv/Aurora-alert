@@ -47,7 +47,7 @@ magnetic field are associated with geomagnetic disturbances on earth.
 
 
 ## Installation
-If you don't have `git` installed, install it as well as the `mailx` command from `mailutils` package using your distributions package management.
+If you don't have `git` installed, install it first using your distributions package management. If you want to use crontab to email you warnings, install the `mailx` command from `mailutils` package.
 
 Clone into the repository:
 
