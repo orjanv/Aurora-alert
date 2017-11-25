@@ -30,6 +30,7 @@ Higher solar wind speeds and strong south pointing (negative) interplanetary
 magnetic field are associated with geomagnetic disturbances on earth.
 
 **Data source**: ftp://ftp.swpc.noaa.gov/pub/lists/ace/ace_swepam_1m.txt
+**Alternativ source**: http://services.swpc.noaa.gov/products/summary/solar-wind-speed.json
 
 Read more at 
 
@@ -42,11 +43,7 @@ Higher solar wind speeds and strong south pointing (negative) interplanetary
 magnetic field are associated with geomagnetic disturbances on earth.
 
 **Data source**: ftp://ftp.swpc.noaa.gov/pub/lists/ace/ace_mag_1m.txt
-
-### Alternative sources for Solar wind and Bz
-
-* http://services.swpc.noaa.gov/products/summary/solar-wind-speed.json
-* http://services.swpc.noaa.gov/products/summary/solar-wind-mag-field.json
+**Alternativ source**: http://services.swpc.noaa.gov/products/summary/solar-wind-mag-field.json
 
 
 ## Installation
