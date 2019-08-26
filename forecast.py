@@ -96,7 +96,7 @@ def getWeather(region):
         response = urllib2.urlopen(url)
         weatherdata = response.readlines()
         root = ET.fromstringlist(weatherdata)
-        wyt = root.find('./time/forecasttype/location/[@name="Nordland"]')
+        wyt = root.find('./time/forecasttype/location/[@name="%s"]' % (region))
         return wyt.text
     except IndexError:
         print "Please enter a region"
