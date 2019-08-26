@@ -88,17 +88,16 @@ def windSpeed():
     
     
 def getWeather(region):
-    ''' Get the weather data from weather api
+    ''' Get the weather data from YR weather api 2.0
     '''
     try:
         # get weather data from xml into memory
-        url = "https://beta.api.met.no/weatherapi/textforecast/1.6/?forecast=landday0&language=nb"
+        url = "https://api.met.no/weatherapi/textforecast/2.0/?forecast=landoverview"
         response = urllib2.urlopen(url)
         weatherdata = response.readlines()
         root = ET.fromstringlist(weatherdata)
-        data = root.findall(".//*[@name='%s']/in" % (region))
-        for i in data:
-            return i.text
+        wyt = root.find('./time/forecasttype/location/[@name="Nordland"]')
+        return wyt.text
     except IndexError:
         print "Please enter a region"
 
@@ -166,19 +165,19 @@ Trøndelag, Nordland, Troms, Finnmark, Spitsbergen"]
         kpi = kpIndex()
         bz = bzValue()
         wind = windSpeed()
-        yr = getWeather(args.region)
+        #yr = getWeather(args.region)
         # If bz is negative and kpi >= 4, or big bz negative,
         # there is a chance of aurora
         if kpi >= 4 and float(bz) < 0.0:
             print "KP-Index (NOAA):", kpi
             print "Bz value (ACE):", bz
             print "Wind speed (ACE):", wind
-            print "Weather data (YR) for Nordland:", yr
+            #print "Weather data (YR) for Nordland:", yr
         elif float(bz) < -2.0:
             print "KP-Index (NOAA):", kpi
             print "Bz value (ACE):", bz
             print "Wind speed (ACE):", wind
-            print "Weather data (YR) for Nordland:", yr
+            #print "Weather data (YR) for Nordland:", yr
 
     if len(sys.argv) == 1:
         about = ("Use this script to grab essential data from the "
