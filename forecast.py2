@@ -1,9 +1,9 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 # 
 # https://github.com/orjanv/Planetary-K-Index-alert
 
-import urllib.request, urllib.error, urllib.parse
+import urllib2
 import argparse
 import xml.etree.ElementTree as ET
 import sys
@@ -15,7 +15,7 @@ def kpIndex():
     '''
     url = 'http://services.swpc.noaa.gov/text/daily-geomagnetic-indices.txt'
     # Download the datafile from noaa.gov
-    response = urllib.request.urlopen(url)
+    response = urllib2.urlopen(url)
     everything = response.readlines()
 
     # We only need the last line
@@ -41,9 +41,9 @@ def bzValue():
     '''
     url = 'ftp://ftp.swpc.noaa.gov/pub/lists/ace/ace_mag_1m.txt'
     # Download the datafile from noaa.gov
-    response = urllib.request.urlopen(url)
+    response = urllib2.urlopen(url)
     everything = response.readlines()
-    #print(everything[-1][36:37])
+
     # We only need the last line, but if last line has corrupt data, 
     # grab the previous, and so on..    
     data_status = 9
@@ -52,12 +52,12 @@ def bzValue():
         last_line = everything[line_number]
         data_status = last_line[36:37]
         # Check the status of the data (bad or corrupt)
-        if data_status.decode('UTF-8') == '0':
+        if data_status == '0':
             bz = last_line[57:61]
             break
         else:
-            line_number -= 1
-    return bz.decode('UTF-8')
+            line_number = line_number - 1
+    return bz
 
 
 def windSpeed():
@@ -67,7 +67,7 @@ def windSpeed():
     '''
     url = 'ftp://ftp.swpc.noaa.gov/pub/lists/ace/ace_swepam_1m.txt'
     # Download the datafile from noaa.gov
-    response = urllib.request.urlopen(url)
+    response = urllib2.urlopen(url)
     everything = response.readlines()
 
     # We only need the last line, but if last line has corrupt data, 
@@ -78,13 +78,13 @@ def windSpeed():
         last_line = everything[line_number]
         data_status = last_line[36:37]
         # Check the status of the data (bad or corrupt)
-        if data_status.decode('UTF-8') == '0':
+        if data_status == '0':
             # Extract the data we are interested in and stop
             speed = last_line[54:59]
             break
         else:
             line_number = line_number - 1
-    return speed.decode('UTF-8')
+    return speed
     
     
 def getWeather(region):
@@ -93,13 +93,13 @@ def getWeather(region):
     try:
         # get weather data from xml into memory
         url = "https://api.met.no/weatherapi/textforecast/2.0/?forecast=landoverview"
-        response = urllib.request.urlopen(url)
+        response = urllib2.urlopen(url)
         weatherdata = response.readlines()
         root = ET.fromstringlist(weatherdata)
         wyt = root.find('./time/forecasttype/location/[@name="%s"]' % (region))
         return wyt.text
     except IndexError:
-        print("Please enter a region")
+        print "Please enter a region"
 
 
 def main():
@@ -132,51 +132,51 @@ Trøndelag, Nordland, Troms, Finnmark, Spitsbergen"]
 
     if args.regions:
         for r in regionnames:
-            print(r)
+            print r
 
     if args.kpindex:
         kpi = kpIndex()
-        print("KP-Index (NOAA):", kpi)
+        print "KP-Index (NOAA):", kpi
 
     if args.windspeed:
         wind = windSpeed()
-        print("Wind speed (ACE):", wind)
+        print "Wind speed (ACE):", wind
         
     if args.bz:
         bz = bzValue()
-        print("Bz value (ACE):", bz)    
+        print "Bz value (ACE):", bz    
 
     if args.yr:
         #region = raw_input("Enter a region: ")
         yr = getWeather(args.region)
-        print("Weather data (YR) for %s: %s" % (args.region, yr)) 
+        print "Weather data (YR) for %s: %s" % (args.region, yr) 
 
     if args.all:   
         kpi = kpIndex()
         bz = bzValue()
         wind = windSpeed()
         yr = getWeather(args.region)
-        print("KP-Index (NOAA):", kpi)
-        print("Bz value (ACE):", bz)
-        print("Wind speed (ACE):", wind)
-        print("Weather data (YR) for Nordland:", yr)
+        print "KP-Index (NOAA):", kpi
+        print "Bz value (ACE):", bz
+        print "Wind speed (ACE):", wind
+        print "Weather data (YR) for Nordland:", yr
 
     if args.forecast:
         kpi = kpIndex()
         bz = bzValue()
         wind = windSpeed()
-        yr = getWeather(args.region)
+        #yr = getWeather(args.region)
         # If bz is negative and kpi >= 4, or big bz negative,
         # there is a chance of aurora
         if kpi >= 4 and float(bz) < 0.0:
-            print("KP-Index (NOAA):", kpi)
-            print("Bz value (ACE):", bz)
-            print("Wind speed (ACE):", wind)
-            #print("Weather data (YR) for Nordland:", yr)
+            print "KP-Index (NOAA):", kpi
+            print "Bz value (ACE):", bz
+            print "Wind speed (ACE):", wind
+            #print "Weather data (YR) for Nordland:", yr
         elif float(bz) < -2.0:
-            print("KP-Index (NOAA):", kpi)
-            print("Bz value (ACE):", bz)
-            print("Wind speed (ACE):", wind)
+            print "KP-Index (NOAA):", kpi
+            print "Bz value (ACE):", bz
+            print "Wind speed (ACE):", wind
             #print "Weather data (YR) for Nordland:", yr
 
     if len(sys.argv) == 1:
@@ -188,7 +188,7 @@ Trøndelag, Nordland, Troms, Finnmark, Spitsbergen"]
             "you and give you an output ONLY if there is a chance of "
             "spotting auroras. Run the script with -h or --help to "
             "see all available functions.")
-        print(about)
+        print about
 
 if __name__ == '__main__':
     main()
